@@ -12,7 +12,7 @@ Run `:MasonInstallAll` command after lazy.nvim finishes downloading plugins
 
 - Windows
 ```bash
-git clone https://github.com/Lunixgithub/nvimconfig.git
+git clone https://github.com/Lunixgithub/nvimconfig.git $HOME\AppData\Local\nvim --depth 1 && nvim
 ```
 
 Run `:MasonInstallAll` command after lazy.nvim finishes downloading plugins
