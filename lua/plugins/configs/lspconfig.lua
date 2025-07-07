@@ -1,4 +1,5 @@
 -- Use LspAttach autocommand to only map the following keys
+local lspconfig = require("lspconfig")
 vim.api.nvim_create_autocmd("LspAttach", {
   group = vim.api.nvim_create_augroup("UserLspConfig", {}),
   callback = function(ev)
@@ -17,6 +18,8 @@ vim.api.nvim_create_autocmd("LspAttach", {
     vim.keymap.set("n", "<space>rn", vim.lsp.buf.rename, opts)
   end,
 })
+
+
 
 local capabilities = vim.lsp.protocol.make_client_capabilities()
 
@@ -39,3 +42,4 @@ capabilities.textDocument.completion.completionItem = {
 }
 
 vim.lsp.config("*", { capabilities = capabilities })
+
