@@ -24,6 +24,11 @@ map("n", "<C-q>", "<cmd> bd <CR>")
 map("n", "<leader>/", "gcc", { remap = true })
 map("v", "<leader>/", "gc", { remap = true })
 
+
+vim.keymap.set({ "n", "x" }, "<leader>ca", function()
+	require("tiny-code-action").code_action()
+end, { noremap = true, silent = true })
+
 -- format
 map("n", "<leader>fm", function()
   require("conform").format()

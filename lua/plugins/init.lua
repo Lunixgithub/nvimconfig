@@ -26,8 +26,6 @@ return {
     opts = require "plugins.configs.bufferline",
   },
 
-  -- we use blink plugin only when in insert mode
-  -- so lets lazyload it at InsertEnter event
   {
     "saghen/blink.cmp",
     version = "1.*",
@@ -35,7 +33,6 @@ return {
     dependencies = {
       "rafamadriz/friendly-snippets",
 
-      -- snippets engine
       {
         "L3MON4D3/LuaSnip",
         config = function()
@@ -43,11 +40,8 @@ return {
         end,
       },
 
-      -- autopairs , autocompletes ()[] etc
       { "windwp/nvim-autopairs", opts = {} },
     },
-    -- made opts a function cuz cmp config calls cmp module
-    -- and we lazyloaded cmp so we dont want that file to be read on startup!
     opts = function()
       return require "plugins.configs.blink"
     end,
@@ -81,9 +75,9 @@ return {
   -- files finder etc
   {
     "nvim-telescope/telescope.nvim",
-    cmd = "Telescope",
-    opts = require "plugins.configs.telescope",
+    dependencies = { "nvim-lua/plenary.nvim" },
   },
+
   {
     "mason-org/mason-lspconfig.nvim",
     opts = {},
@@ -96,11 +90,34 @@ return {
   {
     "rachartier/tiny-inline-diagnostic.nvim",
     event = "VeryLazy", -- Or `LspAttach`
-    priority = 1000, -- needs to be loaded in first
+    priority = 1000, -- needs to be loaded first
     config = function()
-        require('tiny-inline-diagnostic').setup()
-        vim.diagnostic.config({ virtual_text = false }) -- Only if needed in your configuration, if you already have native LSP diagnostics
-    end
+      require('tiny-inline-diagnostic').setup()
+      vim.diagnostic.config({ virtual_text = false }) -- Only if needed
+    end,
+  },
+
+  {
+    "rachartier/tiny-code-action.nvim",
+    dependencies = {
+        {"nvim-lua/plenary.nvim"},
+
+        -- optional picker via telescope
+        {"nvim-telescope/telescope.nvim"},
+        -- optional picker via fzf-lua
+        {"ibhagwan/fzf-lua"},
+        -- .. or via snacks
+        {
+          "folke/snacks.nvim",
+          opts = {
+            terminal = {},
+          }
+        }
+    },
+    event = "LspAttach",
+    opts = {},
+  },
+
 }
-}
+
 
