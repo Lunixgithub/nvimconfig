@@ -3,6 +3,7 @@
 
 
 # Install
+**NOVE THE FILE INTO YOUR .config FOLDER AND RENAME IT TO nvim**
 - Linux or MacOS
 ```bash
 git clone https://github.com/Lunixgithub/nvimconfig.git
