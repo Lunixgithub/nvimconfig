@@ -18,7 +18,7 @@ map("n", "<leader>fo", "<cmd> Telescope oldfiles <CR>", { desc = "Recent Files" 
 map("n", "<leader>fw", "<cmd> Telescope live_grep <CR>", { desc = "Live Grep" })
 map("n", "<leader>gt", "<cmd> Telescope git_status <CR>", { desc = "Git Status" })
 
-map("n", "<leader>ca", "<cmd>TinyCodeAction<CR>", { desc = "Code Actions" })
+
 
 -- bufferline
 map("n", "<Tab>", "<cmd> BufferLineCycleNext <CR>", { desc = "Next Buffer" })
@@ -44,9 +44,9 @@ local ok, wk = pcall(require, "which-key")
 if ok then
   wk.setup({})
   wk.register({
-    e = "NvimTree",
-    f = "Find",
-    g = "Git",
-    ca = "Code Actions",
-  }, { prefix = "<leader>" })
+    { "<leader>ca", group = "Code Actions" },
+    { "<leader>e",  group = "NvimTree" },
+    { "<leader>f",  group = "Find" },
+    { "<leader>g",  group = "Git" },
+  })
 end

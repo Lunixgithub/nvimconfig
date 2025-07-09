@@ -125,11 +125,11 @@ return {
       local wk = require("which-key")
       wk.setup({})
       wk.register({
-        e = { name = "NvimTree" },
-        f = { name = "Find" },
-        g = { name = "Git" },
-        ca = { name = "Code Actions" },
-      }, { prefix = "<leader>" })
-    end,
-  },
+        { "<leader>ca", group = "Code Actions" },
+        { "<leader>e",  group = "NvimTree" },
+        { "<leader>f",  group = "Find" },
+        { "<leader>g",  group = "Git" },
+      })
+    end
+  }
 }
