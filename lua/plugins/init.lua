@@ -1,9 +1,9 @@
 return {
-  { lazy = true, "nvim-lua/plenary.nvim" },
+  { lazy = true,                   "nvim-lua/plenary.nvim" },
 
   { "nvim-tree/nvim-web-devicons", opts = {} },
   { "echasnovski/mini.statusline", opts = {} },
-  { "lewis6991/gitsigns.nvim", opts = {} },
+  { "lewis6991/gitsigns.nvim",     opts = {} },
 
   "EdenEast/nightfox.nvim",
 
@@ -90,7 +90,7 @@ return {
   {
     "rachartier/tiny-inline-diagnostic.nvim",
     event = "VeryLazy", -- Or `LspAttach`
-    priority = 1000, -- needs to be loaded first
+    priority = 1000,    -- needs to be loaded first
     config = function()
       require('tiny-inline-diagnostic').setup()
       vim.diagnostic.config({ virtual_text = false }) -- Only if needed
@@ -100,24 +100,36 @@ return {
   {
     "rachartier/tiny-code-action.nvim",
     dependencies = {
-        {"nvim-lua/plenary.nvim"},
+      { "nvim-lua/plenary.nvim" },
 
-        -- optional picker via telescope
-        {"nvim-telescope/telescope.nvim"},
-        -- optional picker via fzf-lua
-        {"ibhagwan/fzf-lua"},
-        -- .. or via snacks
-        {
-          "folke/snacks.nvim",
-          opts = {
-            terminal = {},
-          }
+      -- optional picker via telescope
+      { "nvim-telescope/telescope.nvim" },
+      -- optional picker via fzf-lua
+      { "ibhagwan/fzf-lua" },
+      -- .. or via snacks
+      {
+        "folke/snacks.nvim",
+        opts = {
+          terminal = {},
         }
+      }
     },
     event = "LspAttach",
     opts = {},
   },
 
+  {
+    "folke/which-key.nvim",
+    event = "VeryLazy",
+    config = function()
+      local wk = require("which-key")
+      wk.setup({})
+      wk.register({
+        e = { name = "NvimTree" },
+        f = { name = "Find" },
+        g = { name = "Git" },
+        ca = { name = "Code Actions" },
+      }, { prefix = "<leader>" })
+    end,
+  },
 }
-
-
