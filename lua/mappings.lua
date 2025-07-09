@@ -1,35 +1,52 @@
 local map = vim.keymap.set
 
--- general mappings
-map("n", "<C-s>", "<cmd> w <CR>")
-map("i", "jk", "<ESC>")
-map("n", "<C-c>", "<cmd> %y+ <CR>") -- copy whole filecontent
+-- 1. Set all your keymaps normally without which-key
+-- Use your existing map calls, for example:
 
--- nvimtree
-map("n", "<leader>E", "<cmd> NvimTreeToggle <CR>")
-map("n", "<leader>e", "<cmd> NvimTreeFocus <CR>")
+-- general mappings
+map("n", "<C-s>", "<cmd> w <CR>", { desc = "Save File" })
+map("i", "jk", "<ESC>", { desc = "Exit Insert Mode" })
+map("n", "<C-c>", "<cmd> %y+ <CR>", { desc = "Copy Whole File" })
+
+-- nvim-tree
+map("n", "<leader>E", "<cmd> NvimTreeToggle <CR>", { desc = "Toggle File Tree" })
+map("n", "<leader>e", "<cmd> NvimTreeFocus <CR>", { desc = "Focus File Tree" })
 
 -- telescope
-map("n", "<leader>ff", "<cmd> Telescope find_files <CR>")
-map("n", "<leader>fo", "<cmd> Telescope oldfiles <CR>")
-map("n", "<leader>fw", "<cmd> Telescope live_grep <CR>")
-map("n", "<leader>gt", "<cmd> Telescope git_status <CR>")
+map("n", "<leader>ff", "<cmd> Telescope find_files <CR>", { desc = "Find Files" })
+map("n", "<leader>fo", "<cmd> Telescope oldfiles <CR>", { desc = "Recent Files" })
+map("n", "<leader>fw", "<cmd> Telescope live_grep <CR>", { desc = "Live Grep" })
+map("n", "<leader>gt", "<cmd> Telescope git_status <CR>", { desc = "Git Status" })
 
--- bufferline, cycle buffers
-map("n", "<Tab>", "<cmd> BufferLineCycleNext <CR>")
-map("n", "<S-Tab>", "<cmd> BufferLineCyclePrev <CR>")
-map("n", "<C-q>", "<cmd> bd <CR>")
+map("n", "<leader>ca", "<cmd>TinyCodeAction<CR>", { desc = "Code Actions" })
+
+-- bufferline
+map("n", "<Tab>", "<cmd> BufferLineCycleNext <CR>", { desc = "Next Buffer" })
+map("n", "<S-Tab>", "<cmd> BufferLineCyclePrev <CR>", { desc = "Previous Buffer" })
+map("n", "<C-q>", "<cmd> bd <CR>", { desc = "Close Buffer" })
 
 -- comment.nvim
-map("n", "<leader>/", "gcc", { remap = true })
-map("v", "<leader>/", "gc", { remap = true })
+map("n", "<leader>/", "gcc", { remap = true, desc = "Toggle Comment Line" })
+map("v", "<leader>/", "gc", { remap = true, desc = "Toggle Comment Selection" })
 
+-- code action
+map({ "n", "x" }, "<leader>ca", function()
+  require("tiny-code-action").code_action()
+end, { noremap = true, silent = true, desc = "Code Action" })
 
-vim.keymap.set({ "n", "x" }, "<leader>ca", function()
-	require("tiny-code-action").code_action()
-end, { noremap = true, silent = true })
-
--- format
+--  ormat
 map("n", "<leader>fm", function()
   require("conform").format()
-end)
+end, { desc = "Format File" })
+
+-- safely require which-key and register groups if available
+local ok, wk = pcall(require, "which-key")
+if ok then
+  wk.setup({})
+  wk.register({
+    e = "NvimTree",
+    f = "Find",
+    g = "Git",
+    ca = "Code Actions",
+  }, { prefix = "<leader>" })
+end
