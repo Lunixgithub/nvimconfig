@@ -118,18 +118,18 @@ return {
     opts = {},
   },
 
-  {
-    "folke/which-key.nvim",
-    event = "VeryLazy",
-    config = function()
-      local wk = require("which-key")
-      wk.setup({})
-      wk.register({
-        { "<leader>ca", group = "Code Actions" },
-        { "<leader>e",  group = "NvimTree" },
-        { "<leader>f",  group = "Find" },
-        { "<leader>g",  group = "Git" },
-      })
-    end
-  }
+{
+  "folke/which-key.nvim",
+  event = "VeryLazy",
+  opts = {},
+  keys = {
+    {
+      "<leader>?",
+      function()
+        require("which-key").show({ global = false })
+      end,
+      desc = "Buffer Local Keymaps (which-key)",
+    },
+  },
+},
 }

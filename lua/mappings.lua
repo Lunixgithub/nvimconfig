@@ -40,13 +40,34 @@ map("n", "<leader>fm", function()
 end, { desc = "Format File" })
 
 -- safely require which-key and register groups if available
+
+
 local ok, wk = pcall(require, "which-key")
-if ok then
-  wk.setup({})
-  wk.register({
-    { "<leader>ca", group = "Code Actions" },
-    { "<leader>e",  group = "NvimTree" },
-    { "<leader>f",  group = "Find" },
-    { "<leader>g",  group = "Git" },
-  })
+
+if not ok then
+  return -- Skip setup if which-key isn't loaded yet
 end
+
+wk.add({
+  { "<leader>f",  group = "file" }, -- group
+  { "<leader>ff", "<cmd>Telescope find_files<cr>", desc = "Find File", mode = "n" },
+  { "<leader>fb", function() print("hello") end,   desc = "Foobar" },
+  { "<leader>fn", desc = "New File" },
+  { "<leader>f1", hidden = true },                                      -- hide this keymap
+  { "<leader>w",  proxy = "<c-w>",                 group = "windows" }, -- proxy to window mappings
+  {
+    "<leader>b",
+    group = "buffers",
+    expand = function()
+      return require("which-key.extras").expand.buf()
+    end
+  },
+  {
+    -- Nested mappings are allowed and can be added in any order
+    -- Most attributes can be inherited or overridden on any level
+    -- There's no limit to the depth of nesting
+    mode = { "n", "v" },                          -- NORMAL and VISUAL mode
+    { "<leader>q", "<cmd>q<cr>", desc = "Quit" }, -- no need to specify mode since it's inherited
+    { "<leader>w", "<cmd>w<cr>", desc = "Write" },
+  }
+})
